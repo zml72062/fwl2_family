@@ -118,7 +118,7 @@ class WL2Base(BaseWL):
         h(u, u) -> h(u, v)
         """
         old_color = self.to2d(self.color)
-        return np.broadcast_to(np.diagonal(old_color)[None, :],
+        return np.broadcast_to(np.diagonal(old_color)[:, None],
                                old_color.shape).reshape(-1).astype(object)
     
     def pointwise_vv(self) -> np.ndarray:
@@ -126,7 +126,7 @@ class WL2Base(BaseWL):
         h(v, v) -> h(u, v)
         """
         old_color = self.to2d(self.color)
-        return np.broadcast_to(np.diagonal(old_color)[:, None],
+        return np.broadcast_to(np.diagonal(old_color)[None, :],
                                old_color.shape).reshape(-1).astype(object)
     
     def global_fwl2(self) -> np.ndarray:
