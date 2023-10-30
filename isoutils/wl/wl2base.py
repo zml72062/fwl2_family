@@ -3,6 +3,7 @@ from .base import BaseWL
 from ..utils import MultiSet, FrozenMultiSet
 from typing import Optional
 from scipy.stats import rankdata
+from itertools import product
 
 class WL2Base(BaseWL):
     """
@@ -196,6 +197,27 @@ class WL2Base(BaseWL):
                 color_ij = np.zeros((len(adj_list), ), dtype=object)
                 for k_idx, k in enumerate(adj_list):
                     color_ij[k_idx] = (old_color[i, k], old_color[k, j])
+                color_list[i, j] = tuple(np.sort(color_ij))
+
+        return color_list.reshape(-1)
+    
+    def n2_fwl2(self) -> np.ndarray:
+        """
+        \sum_(w \in N(v), z \in N(u)) (h(u, w), h(w, v), h(u, z), h(z, v), h(w, z)) -> h(u, v)
+        """
+        color_list = np.zeros((self.graph.num_nodes, self.graph.num_nodes),
+                              dtype=object)
+        old_color = self.to2d(self.color)
+
+        for i in range(self.graph.num_nodes):
+            for j in range(self.graph.num_nodes):
+                adj_list_w = list(self.graph.adj_dict[j])
+                adj_list_z = list(self.graph.adj_dict[i])
+                color_ij = np.zeros((len(adj_list_w) * len(adj_list_z), ), dtype=object)
+                for k_idx, (w, z) in enumerate(product(adj_list_w, adj_list_z)):
+                    color_ij[k_idx] = (old_color[i, w], old_color[w, j],
+                                       old_color[i, z], old_color[z, j],
+                                       old_color[w, z])
                 color_list[i, j] = tuple(np.sort(color_ij))
 
         return color_list.reshape(-1)

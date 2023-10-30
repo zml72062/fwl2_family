@@ -20,6 +20,15 @@ class FWL2(WL2Base):
     def pool_colors(self, coloring) -> MultiSet:
         return self.pool_all(coloring)
     
+class N2FWL(WL2Base):
+    def aggregate_colors(self):
+        return self.color_concat(
+            self.color,
+            self.n2_fwl2(),
+        )
+    def pool_colors(self, coloring) -> MultiSet:
+        return self.pool_all(coloring)
+    
 class LFWL(WL2Base):
     def aggregate_colors(self):
         return self.color_concat(

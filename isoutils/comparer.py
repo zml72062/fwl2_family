@@ -7,7 +7,7 @@ def method_resolve(method: str) -> Callable:
                       'SWL_SV_P', 'SWL_VS_P', 'SWL_SV_G', 'SWL_VS_G',
                       'PSWL_SV', 'PSWL_VS', 'GSWL_SV', 'GSWL_VS',
                       'GSWL_SV_P', 'GSWL_VS_P', 'SSWL_SV', 'SSWL_VS',
-                      'FullSWL_SV', 'FullSWL_VS', 'WL1'}, "Invalid method!"
+                      'FullSWL_SV', 'FullSWL_VS', 'WL1', 'I2WL', 'N2FWL'}, "Invalid method!"
     return eval(method)
 
 def wl_test(method: str, G: np.ndarray, H: np.ndarray,
